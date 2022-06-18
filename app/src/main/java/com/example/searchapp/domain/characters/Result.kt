@@ -1,4 +1,4 @@
-package com.example.searchapp.domain
+package com.example.searchapp.domain.characters
 
 data class Result(
     val id: Int,

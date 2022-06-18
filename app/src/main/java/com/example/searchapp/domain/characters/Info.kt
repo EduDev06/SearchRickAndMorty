@@ -1,4 +1,4 @@
-package com.example.searchapp.domain
+package com.example.searchapp.domain.characters
 
 data class Info(
     val count: Int,

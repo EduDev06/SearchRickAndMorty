@@ -1,6 +1,6 @@
 package com.example.searchapp.data.source.remote.dto
 
-import com.example.searchapp.domain.Result
+import com.example.searchapp.domain.characters.Result
 
 data class ResultDto(
     val created: String,

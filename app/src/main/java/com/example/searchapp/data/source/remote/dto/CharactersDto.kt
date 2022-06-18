@@ -1,7 +1,7 @@
 package com.example.searchapp.data.source.remote.dto
 
-import com.example.searchapp.domain.Characters
-import com.example.searchapp.domain.Result
+import com.example.searchapp.domain.characters.Characters
+import com.example.searchapp.domain.characters.Result
 
 data class CharactersDto(
     val info: InfoDto,

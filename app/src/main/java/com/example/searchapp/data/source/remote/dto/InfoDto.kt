@@ -1,6 +1,6 @@
 package com.example.searchapp.data.source.remote.dto
 
-import com.example.searchapp.domain.Info
+import com.example.searchapp.domain.characters.Info
 
 data class InfoDto(
     val count: Int,
