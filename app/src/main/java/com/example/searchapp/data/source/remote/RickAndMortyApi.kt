@@ -1,6 +1,6 @@
 package com.example.searchapp.data.source.remote
 
-import com.example.searchapp.data.source.remote.dto.CharactersDto
+import com.example.searchapp.data.source.remote.model.ApiPaginatedCharacters
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -14,5 +14,5 @@ interface RickAndMortyApi {
     suspend fun getCharacters(
         @Query(PAGE_PARAMETER) id: Int,
         @Query(NAME_PARAMETER) name: String
-    ): CharactersDto
+    ): ApiPaginatedCharacters
 }
