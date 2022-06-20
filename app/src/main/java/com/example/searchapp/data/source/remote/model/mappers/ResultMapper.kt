@@ -1,7 +1,7 @@
 package com.example.searchapp.data.source.remote.model.mappers
 
 import com.example.searchapp.data.source.remote.model.ApiResult
-import com.example.searchapp.domain.result.Result
+import com.example.searchapp.domain.model.result.Result
 import javax.inject.Inject
 
 class ResultMapper @Inject constructor(): Mapper<ApiResult?, Result> {

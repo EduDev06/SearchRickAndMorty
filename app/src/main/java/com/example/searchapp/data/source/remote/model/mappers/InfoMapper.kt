@@ -1,7 +1,7 @@
 package com.example.searchapp.data.source.remote.model.mappers
 
 import com.example.searchapp.data.source.remote.model.ApiInfo
-import com.example.searchapp.domain.info.Info
+import com.example.searchapp.domain.model.info.Info
 import javax.inject.Inject
 
 class InfoMapper @Inject constructor(): Mapper<ApiInfo?, Info> {

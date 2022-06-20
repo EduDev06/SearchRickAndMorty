@@ -1,4 +1,4 @@
-package com.example.searchapp.domain.result
+package com.example.searchapp.domain.model.result
 
 data class Location(
     val name: String,
