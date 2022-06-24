@@ -1,6 +1,6 @@
-package com.example.searchapp.domain.model.result
+package com.example.searchapp.domain.model.characters
 
-data class Result(
+data class Characters(
     val id: Int,
     val name: String,
     val status: String,
