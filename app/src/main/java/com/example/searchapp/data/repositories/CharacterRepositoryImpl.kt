@@ -6,10 +6,12 @@ import com.example.searchapp.domain.repositories.CharacterRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
+typealias Characters = com.example.searchapp.domain.model.result.Result
+
 class CharacterRepositoryImpl @Inject constructor(
     private val api: RickAndMortyApi
 ): CharacterRepository {
-    override fun getCharacters(): Flow<Result<List<com.example.searchapp.domain.model.result.Result>>> {
+    override fun getCharacters(): Flow<Result<List<Characters>>> {
         TODO("Not yet implemented")
     }
 
@@ -20,7 +22,7 @@ class CharacterRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun storeCharacter(character: com.example.searchapp.domain.model.result.Result) {
+    override suspend fun storeCharacter(character: Characters) {
         TODO("Not yet implemented")
     }
 }
