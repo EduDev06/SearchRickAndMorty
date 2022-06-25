@@ -1,13 +1,13 @@
 package com.example.searchapp.domain.model
 
 import com.example.searchapp.domain.model.info.Info
-import com.example.searchapp.domain.model.characters.Characters
+import com.example.searchapp.domain.model.result.Result
 
 /*
 We need to paginated all the results from api into Characters object
  */
 
-data class PaginatedCharacters(
+data class PaginatedResult(
     val info: Info,
-    val results: List<Characters>
+    val result: List<Result>
 )

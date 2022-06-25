@@ -1,7 +1,7 @@
 package com.example.searchapp.data.source.remote.model.mappers
 
 import com.example.searchapp.data.source.remote.model.ApiOrigin
-import com.example.searchapp.domain.model.characters.Origin
+import com.example.searchapp.domain.model.result.Origin
 import javax.inject.Inject
 
 class OriginMapper @Inject constructor(): Mapper<ApiOrigin?, Origin>{

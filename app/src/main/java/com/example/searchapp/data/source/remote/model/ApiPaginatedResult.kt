@@ -1,6 +1,6 @@
 package com.example.searchapp.data.source.remote.model
 
-data class ApiPaginatedCharacters(
+data class ApiPaginatedResult(
     val info: ApiInfo?,
-    val results: List<ApiCharacters>?
+    val results: List<ApiResult>?
 )
