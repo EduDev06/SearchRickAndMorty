@@ -1,11 +1,11 @@
-package com.example.searchapp.data.source.local.model.result
+package com.example.searchapp.data.source.local.model.characters
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.searchapp.domain.model.result.Result
+import com.example.searchapp.domain.model.characters.Characters
 
-@Entity(tableName = "result")
-class CachedResult(
+@Entity(tableName = "characters")
+class CachedCharacters(
     @PrimaryKey(autoGenerate = false)
     val id: Int,
     val name: String,
@@ -14,8 +14,8 @@ class CachedResult(
     val image: String
 ) {
     companion object {
-        fun fromDomain(domainModel: Result): CachedResult {
-            return CachedResult(
+        fun fromDomain(domainModel: Characters): CachedCharacters {
+            return CachedCharacters(
                 id = domainModel.id,
                 name = domainModel.name,
                 status = domainModel.status,
@@ -25,8 +25,8 @@ class CachedResult(
         }
     }
 
-    fun toDomain(): Result {
-        return Result(
+    fun toDomain(): Characters {
+        return Characters(
             id = id,
             name = name,
             status = status,

@@ -1,10 +1,8 @@
 package com.example.searchapp.domain.repositories
 
-import com.example.searchapp.domain.model.PaginatedResult
+import com.example.searchapp.domain.model.PaginatedCharacters
+import com.example.searchapp.domain.model.characters.Characters
 import kotlinx.coroutines.flow.Flow
-
-typealias Characters = com.example.searchapp.domain.model.result.Result
-typealias PaginatedCharacters = PaginatedResult
 
 interface CharacterRepository {
     fun getCharacters(): Flow<Result<List<Characters>>>

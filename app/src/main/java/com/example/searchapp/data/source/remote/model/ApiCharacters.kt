@@ -1,6 +1,6 @@
 package com.example.searchapp.data.source.remote.model
 
-data class ApiResult(
+data class ApiCharacters(
     val created: String?,
     val episode: List<String>?,
     val gender: String?,
