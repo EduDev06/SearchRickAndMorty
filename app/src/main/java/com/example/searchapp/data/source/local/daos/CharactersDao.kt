@@ -6,12 +6,12 @@ import com.example.searchapp.data.source.local.model.characters.CachedCharacters
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-abstract class CharactersDao {
+interface CharactersDao {
 
     @Transaction
-    @Query("SELECT * FROM characters")
-    abstract fun getCharacters(): Flow<Result<List<CachedCharacters>>>
+    @Query("SELECT * FROM characters WHERE name = :character")
+    fun getCharacters(character: String): Flow<Result<List<CachedCharacters>>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insertCharacter(character: CachedCharacters)
+    suspend fun insertCharacter(character: List<CachedCharacters>)
 }
