@@ -8,8 +8,6 @@ const val CHARACTER_ENDPOINT = "character/"
 const val PAGE_PARAMETER = "page"
 const val NAME_PARAMETER = "name"
 
-typealias ApiPaginatedCharacters = ApiPaginatedCharacters
-
 interface RickAndMortyApi {
 
     @GET(CHARACTER_ENDPOINT)
