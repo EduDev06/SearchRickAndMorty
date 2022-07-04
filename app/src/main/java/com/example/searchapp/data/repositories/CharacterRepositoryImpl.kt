@@ -1,16 +1,16 @@
 package com.example.searchapp.data.repositories
 
-import com.example.searchapp.R
 import com.example.searchapp.data.source.local.Cache
 import com.example.searchapp.data.source.remote.RickAndMortyApi
 import com.example.searchapp.domain.model.PaginatedCharacters
 import com.example.searchapp.domain.repositories.CharacterRepository
-import com.example.searchapp.data.Result
+import com.example.searchapp.domain.Result
 import com.example.searchapp.data.source.local.model.characters.CachedCharacters
 import com.example.searchapp.data.source.remote.model.mappers.CharactersMapper
 import com.example.searchapp.data.source.remote.model.mappers.InfoMapper
+import com.example.searchapp.domain.ErrorEntity
 import com.example.searchapp.domain.model.characters.Characters
-import com.example.searchapp.util.UiText
+import com.example.searchapp.domain.model.info.Info
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
@@ -23,35 +23,27 @@ class CharacterRepositoryImpl @Inject constructor(
     private val apiInfoMapper: InfoMapper,
     private val apiCharacterMapper: CharactersMapper
 ): CharacterRepository {
-    override fun getCharacters(character: String): Flow<Result<List<Characters>>> = flow {
-        emit(Result.Loading())
-        val response = cache.getCharacters(character).map { it.toDomain() }
-        emit(Result.Loading(data = response))
+    override fun getCharacters(character: String): Flow<List<Characters>> = flow {
+        cache.getCharacters(character).map { it.toDomain() }
     }
 
     override suspend fun requestMoreCharacters(
         pageToLoad: Int,
         name: String
-    ): Result<PaginatedCharacters> {
+    ): Result<Info> {
         val response = try {
             val (apiInfo, apiCharacters) = api.getCharacters(pageToLoad, name)
-            PaginatedCharacters(
+            val paginatedCharacters = PaginatedCharacters(
                 info = apiInfoMapper.mapToDomain(apiInfo),
                 characters = apiCharacters?.map { apiCharacterMapper.mapToDomain(it) }.orEmpty()
             )
+            cache.storeCharacters(paginatedCharacters.characters.map { CachedCharacters.fromDomain(it) })
+            paginatedCharacters.info
         } catch (e: HttpException) {
-            return Result.Error(
-                message = UiText.StringResource(R.string.unknown_exception_error)
-            )
+            return Result.Error(ErrorEntity.ApiError.UnKnown)
         } catch (e: IOException) {
-            return Result.Error(
-                message = UiText.StringResource(R.string.io_exception_error)
-            )
+            return Result.Error(ErrorEntity.ApiError.NotFound)
         }
-        return Result.Success(data = response)
-    }
-
-    override suspend fun storeCharacter(character: List<Characters>) {
-        cache.storeCharacters(character.map { CachedCharacters.fromDomain(it) })
+        return Result.Success(response)
     }
 }
