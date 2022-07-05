@@ -6,11 +6,13 @@ import com.example.searchapp.domain.model.info.Info
 import com.example.searchapp.domain.repositories.CharacterRepository
 import javax.inject.Inject
 
+const val MIN_NAME_LENGTH = 2
+
 class GetMoreCharacters @Inject constructor(
     private val repository: CharacterRepository,
 ) {
-    suspend operator fun invoke(page: Int = Info.DEFAULT_PAGE_SIZE, character: String): Result<Info> =
-        if (character.length < 2 ) {
+    suspend operator fun invoke(page: Int = Info.DEFAULT_PAGE_SIZE, character: String) =
+        if (character.length < MIN_NAME_LENGTH ) {
             Result.Error(ErrorEntity.InputError.EmailError)
         } else {
             repository.requestMoreCharacters(page, character)

@@ -9,7 +9,7 @@ import com.example.searchapp.data.source.local.model.characters.CachedCharacters
 import com.example.searchapp.data.source.remote.model.mappers.CharactersMapper
 import com.example.searchapp.data.source.remote.model.mappers.InfoMapper
 import com.example.searchapp.domain.ErrorEntity
-import com.example.searchapp.domain.model.characters.Characters
+import com.example.searchapp.domain.model.characters.Character
 import com.example.searchapp.domain.model.info.Info
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -23,7 +23,7 @@ class CharacterRepositoryImpl @Inject constructor(
     private val apiInfoMapper: InfoMapper,
     private val apiCharacterMapper: CharactersMapper
 ): CharacterRepository {
-    override fun getCharacters(character: String): Flow<List<Characters>> = flow {
+    override fun getCharacters(character: String): Flow<List<Character>> = flow {
         cache.getCharacters(character).map { it.toDomain() }
     }
 

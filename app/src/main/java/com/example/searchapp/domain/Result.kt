@@ -1,6 +1,6 @@
 package com.example.searchapp.domain
 
-sealed class Result<T>(val data: T? = null) {
-    class Success<T>(data: T?): Result<T>()
-    class Error<T>(error: ErrorEntity): Result<T>()
+sealed class Result<T> {
+    data class Success<T>(val data: T?): Result<T>()
+    data class Error<T>(val error: ErrorEntity): Result<T>()
 }

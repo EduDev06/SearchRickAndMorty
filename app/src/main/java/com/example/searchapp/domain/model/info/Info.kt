@@ -7,9 +7,6 @@ data class Info(
     val prev: String?
 ) {
     companion object {
-        const val DEFAULT_CURRENT_PAGE = 1
-        const val DEFAULT_PAGE_SIZE = 30
+        const val DEFAULT_PAGE_SIZE = 41
     }
-    val canLoadMore: Boolean
-        get() = DEFAULT_CURRENT_PAGE < pages
 }
