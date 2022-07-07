@@ -41,11 +41,11 @@ class HomeViewModel @Inject constructor(
         when (event) {
             is HomeEvent.EnteredCharacter -> state = state.copy(character = event.value)
             is HomeEvent.GetCharacters -> getCharacter(character = event.value)
-            is HomeEvent.NextPage -> nextPage(character = event.value)
         }
     }
 
     private fun getCharacter(character: String) {
+        state = state.copy(isLoading = true)
         viewModelScope.launch {
             getMoreCharacters(currentPage, character).also { result ->
                 when (result) {
@@ -73,62 +73,60 @@ class HomeViewModel @Inject constructor(
                             state = state.copy(
                                 characters = it,
                             )
-                        }
+                        }.launchIn(this)
                     }
                 }
             }
         }
+        state = state.copy(isLoading = false)
     }
 
-    private fun nextPage(character: String) {
+    private fun nextPage(
+        input: String,
+    ) {
         viewModelScope.launch {
-            if ((scrollPosition + 1) >= (UI_PAGE_SIZE * currentPage)) {
-                state = state.copy(isLoading = true)
-                incrementPage()
-                delay(1000)
-
-                if (currentPage > 1) {
-                    getMoreCharacters(currentPage, character).also { result ->
-                        when (result) {
-                            is Result.Error -> {
-                                when (result.error) {
-                                    ErrorEntity.ApiError.NotFound -> {
-                                        _eventFlow.emit(UIEvent.ShowSnackBar(
-                                            message = UiText.StringResource(R.string.io_exception_error)
-                                        ))
-                                    }
-                                    ErrorEntity.ApiError.UnKnown -> {
-                                        _eventFlow.emit(UIEvent.ShowSnackBar(
-                                            message = UiText.StringResource(R.string.unknown_exception_error)
-                                        ))
-                                    }
-                                    ErrorEntity.InputError.EmailError -> {
-                                        _eventFlow.emit(UIEvent.ShowSnackBar(
-                                            message = UiText.StringResource(R.string.character_error,2)
-                                        ))
-                                    }
-                                }
+            state = state.copy(isLoading = true)
+            currentPage++
+            delay(1000)
+            getMoreCharacters(currentPage, input).also { result ->
+                when (result) {
+                    is Result.Error -> {
+                        when (result.error) {
+                            ErrorEntity.ApiError.NotFound -> {
+                                _eventFlow.emit(UIEvent.ShowSnackBar(
+                                    message = UiText.StringResource(R.string.io_exception_error)
+                                ))
                             }
-                            is Result.Success -> {
-                                getCharactersUseCase(character).onEach {
-                                    state = state.copy(
-                                        characters = it,
-                                    )
-                                }
+                            ErrorEntity.ApiError.UnKnown -> {
+                                _eventFlow.emit(UIEvent.ShowSnackBar(
+                                    message = UiText.StringResource(R.string.unknown_exception_error)
+                                ))
+                            }
+                            ErrorEntity.InputError.EmailError -> {
+                                _eventFlow.emit(UIEvent.ShowSnackBar(
+                                    message = UiText.StringResource(R.string.character_error,2)
+                                ))
                             }
                         }
                     }
+                    is Result.Success -> {
+                        getCharactersUseCase(input).onEach {
+                            state = state.copy(
+                                characters = it,
+                            )
+                        }.launchIn(this)
+                    }
                 }
             }
+            state = state.copy(isLoading = false)
         }
     }
 
-    private fun incrementPage() {
-        currentPage++
-    }
-
-    private fun incrementScrollPosition(position: Int) {
+    fun requireMoreCharacters(input: String, position: Int) {
         scrollPosition = position
+        if ((scrollPosition + 1) >= (UI_PAGE_SIZE * currentPage)) {
+            nextPage(input)
+        }
     }
 
     sealed class UIEvent {

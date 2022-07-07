@@ -3,6 +3,8 @@ package com.example.searchapp.data.source.local.model.characters
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.searchapp.domain.model.characters.Character
+import com.example.searchapp.domain.model.characters.Location
+import com.example.searchapp.domain.model.characters.Origin
 
 @Entity(tableName = "characters")
 class CachedCharacters(
@@ -11,7 +13,9 @@ class CachedCharacters(
     val name: String,
     val status: String,
     val species: String,
-    val image: String
+    val image: String,
+    val origin: Origin,
+    val location: Location
 ) {
     companion object {
         fun fromDomain(domainModel: Character): CachedCharacters {
@@ -20,7 +24,9 @@ class CachedCharacters(
                 name = domainModel.name,
                 status = domainModel.status,
                 species = domainModel.species,
-                image = domainModel.image
+                image = domainModel.image,
+                origin = domainModel.origin,
+                location = domainModel.location
             )
         }
     }
@@ -31,7 +37,9 @@ class CachedCharacters(
             name = name,
             status = status,
             species = species,
-            image = image
+            image = image,
+            origin = origin,
+            location = location
         )
     }
 }
