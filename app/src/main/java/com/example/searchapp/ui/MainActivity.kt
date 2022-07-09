@@ -3,6 +3,7 @@ package com.example.searchapp.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.ui.platform.LocalContext
 import com.example.searchapp.ui.home.HomeScreen
 import com.example.searchapp.ui.theme.SearchAppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -13,7 +14,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SearchAppTheme {
-                HomeScreen()
+                val context = LocalContext.current
+                HomeScreen(context = context)
             }
         }
     }

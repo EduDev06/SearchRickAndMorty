@@ -5,10 +5,10 @@ import com.example.searchapp.domain.repositories.CharacterRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.scopes.ViewModelScoped
+import dagger.hilt.android.components.ViewModelComponent
 
 @Module
-@InstallIn(ViewModelScoped::class)
+@InstallIn(ViewModelComponent::class)
 abstract class RepositoryModule {
 
     @Binds

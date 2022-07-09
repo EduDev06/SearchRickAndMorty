@@ -30,30 +30,35 @@ fun CharacterItem(
         elevation = 8.dp,
         shape = RoundedCornerShape(corner = CornerSize(16.dp))
     ) {
-        CharacterImage(item.image)
-        Column(modifier.fillMaxWidth()) {
-            Text(
-                text = item.name,
-                style = MaterialTheme.typography.subtitle2
-            )
-            Text(
-                text = "${item.status} + ${item.species}",
-                style = MaterialTheme.typography.body2
-            )
-            CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                Text(text = stringResource(R.string.first_seen_in))
+        Row {
+            CharacterImageContainer(modifier = Modifier.size(64.dp)) {
+                CharacterImage(item.image)
             }
-            Text(
-                text = item.origin.name,
-                style = MaterialTheme.typography.body2
-            )
-            CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                Text(text = stringResource(R.string.last_known_location))
+            Spacer(modifier = Modifier.width(10.dp))
+            Column(modifier.fillMaxWidth()) {
+                Text(
+                    text = item.name,
+                    style = MaterialTheme.typography.subtitle2
+                )
+                Text(
+                    text = "${item.status} + ${item.species}",
+                    style = MaterialTheme.typography.body2
+                )
+                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                    Text(text = stringResource(R.string.first_seen_in))
+                }
+                Text(
+                    text = item.origin.name,
+                    style = MaterialTheme.typography.body2
+                )
+                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                    Text(text = stringResource(R.string.last_known_location))
+                }
+                Text(
+                    text = item.location.name,
+                    style = MaterialTheme.typography.body2
+                )
             }
-            Text(
-                text = item.location.name,
-                style = MaterialTheme.typography.body2
-            )
         }
     }
 }
@@ -73,5 +78,15 @@ fun CharacterImage(image: String) {
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
+    }
+}
+
+@Composable
+fun CharacterImageContainer(
+    modifier: Modifier,
+    content: @Composable () -> Unit
+) {
+    Surface(modifier.aspectRatio(1f), RoundedCornerShape(4.dp)) {
+        content()
     }
 }

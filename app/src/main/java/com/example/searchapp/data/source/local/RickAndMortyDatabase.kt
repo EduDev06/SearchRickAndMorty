@@ -9,7 +9,8 @@ import com.example.searchapp.data.source.local.model.characters.CachedCharacters
     entities = [
         CachedCharacters::class
     ],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 abstract class RickAndMortyDatabase: RoomDatabase() {
     abstract fun characterDao(): CharactersDao

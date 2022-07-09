@@ -1,6 +1,8 @@
 package com.example.searchapp.data.source.remote.model
 
+import com.google.gson.annotations.SerializedName
+
 data class ApiPaginatedCharacters(
     val info: ApiInfo?,
-    val characters: List<ApiCharacters>?
+    @SerializedName("results") val characters: List<ApiCharacters>?
 )

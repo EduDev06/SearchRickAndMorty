@@ -4,6 +4,6 @@ import com.example.searchapp.domain.model.characters.Character
 
 data class HomeState(
     val characters: List<Character> = emptyList(),
-    val character: String = "",
+    val input: String = "",
     val isLoading: Boolean = false,
 )

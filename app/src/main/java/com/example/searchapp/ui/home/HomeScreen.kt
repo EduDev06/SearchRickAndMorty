@@ -11,10 +11,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.searchapp.R
 import com.example.searchapp.domain.model.characters.Character
 import com.example.searchapp.ui.home.components.CharacterItem
+import com.example.searchapp.ui.theme.SearchAppTheme
 
 @Composable
 fun HomeScreen(
@@ -43,7 +47,8 @@ fun HomeScreen(
         content = { innerPadding ->
             HomeContent(
                 modifier = Modifier.padding(innerPadding),
-                input = state.character,
+                input = state.input,
+                characters = state.characters,
                 requireMoreCharacters = { input, position -> viewModel.requireMoreCharacters(input,position) } ,
                 onEvent = { viewModel.onEvent(it) }
             )
@@ -61,16 +66,20 @@ private fun HomeContent(
     onEvent: (HomeEvent) -> Unit
 ) {
     Surface(modifier = modifier.fillMaxSize()) {
-        Column {
+        Column(modifier = Modifier.padding(start = 5.dp, end = 5.dp, top = 10.dp)) {
             Row(modifier = Modifier.fillMaxWidth()) {
                 TextField(
+                    modifier = Modifier.fillMaxWidth(),
                     value = input,
+                    placeholder = { Text(stringResource(R.string.name)) },
                     onValueChange = { onEvent(HomeEvent.EnteredCharacter(it)) },
-                    textStyle = MaterialTheme.typography.body2
+                    textStyle = MaterialTheme.typography.body2,
+                    trailingIcon = {
+                        IconButton(onClick = { onEvent(HomeEvent.GetCharacters(input)) }) {
+                            Icon(imageVector = Icons.Default.Search, contentDescription = null)
+                        }
+                    }
                 )
-                IconButton(onClick = { onEvent(HomeEvent.GetCharacters(input)) }) {
-                    Icon(imageVector = Icons.Default.Search, contentDescription = null)
-                }
             }
             LazyColumn(
                 contentPadding = PaddingValues(vertical = 5.dp, horizontal = 4.dp),
@@ -94,5 +103,17 @@ private fun FullScreenLoading() {
             .wrapContentSize(Alignment.Center)
     ) {
         CircularProgressIndicator()
+    }
+}
+
+@Preview
+@Composable
+fun PreviewHomeContent() {
+    SearchAppTheme {
+        HomeContent(
+            input = " ",
+            requireMoreCharacters = { _,_ -> },
+            onEvent = { }
+        )
     }
 }

@@ -36,15 +36,16 @@ class HomeViewModel @Inject constructor(
 
     private var scrollPosition = 0
     private var currentPage = 1
+    private var totalPages = 41
 
     fun onEvent(event: HomeEvent) {
         when (event) {
-            is HomeEvent.EnteredCharacter -> state = state.copy(character = event.value)
-            is HomeEvent.GetCharacters -> getCharacter(character = event.value)
+            is HomeEvent.EnteredCharacter -> state = state.copy(input = event.value)
+            is HomeEvent.GetCharacters -> getCharacters(character = event.value)
         }
     }
 
-    private fun getCharacter(character: String) {
+    private fun getCharacters(character: String) {
         state = state.copy(isLoading = true)
         viewModelScope.launch {
             getMoreCharacters(currentPage, character).also { result ->
@@ -69,7 +70,8 @@ class HomeViewModel @Inject constructor(
                         }
                     }
                     is Result.Success -> {
-                        getCharactersUseCase(character).onEach {
+                        totalPages = result.data?.pages ?: 41
+                        getCharactersUseCase(character).map {
                             state = state.copy(
                                 characters = it,
                             )
@@ -124,7 +126,7 @@ class HomeViewModel @Inject constructor(
 
     fun requireMoreCharacters(input: String, position: Int) {
         scrollPosition = position
-        if ((scrollPosition + 1) >= (UI_PAGE_SIZE * currentPage)) {
+        if ((scrollPosition + 2) >= (totalPages * UI_PAGE_SIZE)) {
             nextPage(input)
         }
     }

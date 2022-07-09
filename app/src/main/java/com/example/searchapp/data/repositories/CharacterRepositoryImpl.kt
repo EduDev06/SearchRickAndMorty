@@ -11,8 +11,7 @@ import com.example.searchapp.data.source.remote.model.mappers.InfoMapper
 import com.example.searchapp.domain.ErrorEntity
 import com.example.searchapp.domain.model.characters.Character
 import com.example.searchapp.domain.model.info.Info
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
@@ -24,7 +23,10 @@ class CharacterRepositoryImpl @Inject constructor(
     private val apiCharacterMapper: CharactersMapper
 ): CharacterRepository {
     override fun getCharacters(character: String): Flow<List<Character>> = flow {
-        cache.getCharacters(character).map { it.toDomain() }
+        val list = cache.getCharacters(character).map { characterList ->
+            characterList.map { (it.toDomain()) }
+        }
+        emitAll(list)
     }
 
     override suspend fun requestMoreCharacters(

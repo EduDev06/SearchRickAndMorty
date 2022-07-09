@@ -1,6 +1,6 @@
 package com.example.searchapp.di
 
-import android.content.Context
+import android.app.Application
 import androidx.room.Room
 import com.example.searchapp.data.source.local.Cache
 import com.example.searchapp.data.source.local.RickAndMortyDatabase
@@ -10,7 +10,6 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -26,7 +25,7 @@ abstract class LocalModule {
     companion object {
         @Provides
         @Singleton
-        fun provideDatabase(@ApplicationContext app: Context): RickAndMortyDatabase {
+        fun provideDatabase(app: Application): RickAndMortyDatabase {
             return Room.databaseBuilder(
                 app,
                 RickAndMortyDatabase::class.java,
