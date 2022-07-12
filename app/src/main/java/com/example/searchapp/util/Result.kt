@@ -1,4 +1,4 @@
-package com.example.searchapp.domain
+package com.example.searchapp.util
 
 sealed class Result<T> {
     data class Success<T>(val data: T?): Result<T>()

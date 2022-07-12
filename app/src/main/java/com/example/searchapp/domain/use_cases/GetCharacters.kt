@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetCharacters @Inject constructor(
     private val characterRepository: CharacterRepository
 ) {
-    operator fun invoke(name: String): Flow<List<Character>> {
-        return characterRepository.getCharacters(name).filter { it.isNotEmpty() }
+    operator fun invoke(name: String, limit: Int, offset: Int): Flow<List<Character>> {
+        return characterRepository.getCharacters(name, limit, offset).filter { it.isNotEmpty() }
     }
 }

@@ -73,7 +73,7 @@ private fun HomeContent(
                     value = input,
                     placeholder = { Text(stringResource(R.string.name)) },
                     onValueChange = { onEvent(HomeEvent.EnteredCharacter(it)) },
-                    textStyle = MaterialTheme.typography.body2,
+                    textStyle = MaterialTheme.typography.h6,
                     trailingIcon = {
                         IconButton(onClick = { onEvent(HomeEvent.GetCharacters(input)) }) {
                             Icon(imageVector = Icons.Default.Search, contentDescription = null)
@@ -82,7 +82,7 @@ private fun HomeContent(
                 )
             }
             LazyColumn(
-                contentPadding = PaddingValues(vertical = 5.dp, horizontal = 4.dp),
+                contentPadding = PaddingValues(5.dp),
                 content = {
                     itemsIndexed(items = characters) { index, character ->
                         requireMoreCharacters(input, index)

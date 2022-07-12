@@ -6,8 +6,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.searchapp.R
-import com.example.searchapp.domain.ErrorEntity
-import com.example.searchapp.domain.Result
+import com.example.searchapp.util.ErrorEntity
+import com.example.searchapp.util.Result
 import com.example.searchapp.domain.model.info.Info
 import com.example.searchapp.domain.use_cases.GetCharacters
 import com.example.searchapp.domain.use_cases.GetMoreCharacters
@@ -41,23 +41,33 @@ class HomeViewModel @Inject constructor(
     fun onEvent(event: HomeEvent) {
         when (event) {
             is HomeEvent.EnteredCharacter -> state = state.copy(input = event.value)
-            is HomeEvent.GetCharacters -> getCharacters(character = event.value)
+            is HomeEvent.GetCharacters -> getCharacters(input = event.value)
         }
     }
 
-    private fun getCharacters(character: String) {
+    private fun getCharacters(input: String) {
         state = state.copy(isLoading = true)
         viewModelScope.launch {
-            getMoreCharacters(currentPage, character).also { result ->
+            getMoreCharacters(currentPage, input).also { result ->
                 when (result) {
                     is Result.Error -> {
                         when (result.error) {
                             ErrorEntity.ApiError.NotFound -> {
+                                getCharactersUseCase(input, UI_PAGE_SIZE, (UI_PAGE_SIZE*(currentPage-1))).map {
+                                    state = state.copy(
+                                        characters = it,
+                                    )
+                                }.launchIn(this)
                                 _eventFlow.emit(UIEvent.ShowSnackBar(
                                     message = UiText.StringResource(R.string.io_exception_error)
                                 ))
                             }
                             ErrorEntity.ApiError.UnKnown -> {
+                                getCharactersUseCase(input, UI_PAGE_SIZE, (UI_PAGE_SIZE*(currentPage-1))).map {
+                                    state = state.copy(
+                                        characters = it,
+                                    )
+                                }.launchIn(this)
                                 _eventFlow.emit(UIEvent.ShowSnackBar(
                                     message = UiText.StringResource(R.string.unknown_exception_error)
                                 ))
@@ -71,7 +81,7 @@ class HomeViewModel @Inject constructor(
                     }
                     is Result.Success -> {
                         totalPages = result.data?.pages ?: 41
-                        getCharactersUseCase(character).map {
+                        getCharactersUseCase(input, UI_PAGE_SIZE, (UI_PAGE_SIZE * (currentPage-1))).onEach {
                             state = state.copy(
                                 characters = it,
                             )
@@ -95,11 +105,21 @@ class HomeViewModel @Inject constructor(
                     is Result.Error -> {
                         when (result.error) {
                             ErrorEntity.ApiError.NotFound -> {
+                                getCharactersUseCase(input, UI_PAGE_SIZE, (UI_PAGE_SIZE * (currentPage-1))).onEach {
+                                    state = state.copy(
+                                        characters = it,
+                                    )
+                                }.launchIn(this)
                                 _eventFlow.emit(UIEvent.ShowSnackBar(
                                     message = UiText.StringResource(R.string.io_exception_error)
                                 ))
                             }
                             ErrorEntity.ApiError.UnKnown -> {
+                                getCharactersUseCase(input, UI_PAGE_SIZE, (UI_PAGE_SIZE* (currentPage-1))).onEach {
+                                    state = state.copy(
+                                        characters = it,
+                                    )
+                                }.launchIn(this)
                                 _eventFlow.emit(UIEvent.ShowSnackBar(
                                     message = UiText.StringResource(R.string.unknown_exception_error)
                                 ))
@@ -112,7 +132,8 @@ class HomeViewModel @Inject constructor(
                         }
                     }
                     is Result.Success -> {
-                        getCharactersUseCase(input).onEach {
+                        currentPage++
+                        getCharactersUseCase(input, UI_PAGE_SIZE, (UI_PAGE_SIZE* (currentPage-1))).onEach {
                             state = state.copy(
                                 characters = it,
                             )

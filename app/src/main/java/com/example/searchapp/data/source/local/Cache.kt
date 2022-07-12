@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface Cache {
 
-    fun getCharacters(character: String): Flow<List<CachedCharacters>>
+    fun getCharacters(character: String, limit: Int, offset: Int): Flow<List<CachedCharacters>>
 
     suspend fun storeCharacters(characters: List<CachedCharacters>)
 }

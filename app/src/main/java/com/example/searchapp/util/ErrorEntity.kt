@@ -1,4 +1,4 @@
-package com.example.searchapp.domain
+package com.example.searchapp.util
 
 sealed class ErrorEntity {
     sealed class ApiError: ErrorEntity() {

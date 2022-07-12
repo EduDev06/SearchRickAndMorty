@@ -4,11 +4,11 @@ import com.example.searchapp.data.source.local.Cache
 import com.example.searchapp.data.source.remote.RickAndMortyApi
 import com.example.searchapp.domain.model.PaginatedCharacters
 import com.example.searchapp.domain.repositories.CharacterRepository
-import com.example.searchapp.domain.Result
+import com.example.searchapp.util.Result
 import com.example.searchapp.data.source.local.model.characters.CachedCharacters
 import com.example.searchapp.data.source.remote.model.mappers.CharactersMapper
 import com.example.searchapp.data.source.remote.model.mappers.InfoMapper
-import com.example.searchapp.domain.ErrorEntity
+import com.example.searchapp.util.ErrorEntity
 import com.example.searchapp.domain.model.characters.Character
 import com.example.searchapp.domain.model.info.Info
 import kotlinx.coroutines.flow.*
@@ -22,8 +22,8 @@ class CharacterRepositoryImpl @Inject constructor(
     private val apiInfoMapper: InfoMapper,
     private val apiCharacterMapper: CharactersMapper
 ): CharacterRepository {
-    override fun getCharacters(character: String): Flow<List<Character>> = flow {
-        val list = cache.getCharacters(character).map { characterList ->
+    override fun getCharacters(character: String, limit: Int, offset: Int): Flow<List<Character>> = flow {
+        val list = cache.getCharacters(character, limit, offset).map { characterList ->
             characterList.map { (it.toDomain()) }
         }
         emitAll(list)

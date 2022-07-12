@@ -1,7 +1,7 @@
 package com.example.searchapp.domain.use_cases
 
-import com.example.searchapp.domain.ErrorEntity
-import com.example.searchapp.domain.Result
+import com.example.searchapp.util.ErrorEntity
+import com.example.searchapp.util.Result
 import com.example.searchapp.domain.repositories.CharacterRepository
 import javax.inject.Inject
 

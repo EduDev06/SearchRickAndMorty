@@ -8,8 +8,8 @@ import javax.inject.Inject
 class RoomCache @Inject constructor(
     private val charactersDao: CharactersDao
 ): Cache {
-    override fun getCharacters(character: String): Flow<List<CachedCharacters>> {
-        return charactersDao.getCharacters(character)
+    override fun getCharacters(character: String, limit: Int, offset: Int): Flow<List<CachedCharacters>> {
+        return charactersDao.getCharacters(character, limit, offset)
     }
 
     override suspend fun storeCharacters(characters: List<CachedCharacters>) {
