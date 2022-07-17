@@ -16,9 +16,7 @@ data class CachedCharacters(
     val species: String,
     val image: String,
     @ColumnInfo(name = "origin_name") val originName: String,
-    @ColumnInfo(name = "origin_url") val originUrl: String,
     @ColumnInfo(name = "location_name") val locationName: String,
-    @ColumnInfo(name = "location_url") val locationUrl: String,
 ) {
     companion object {
         fun fromDomain(domainModel: Character): CachedCharacters {
@@ -31,9 +29,7 @@ data class CachedCharacters(
                 species = domainModel.species,
                 image = domainModel.image,
                 originName = origin.name,
-                originUrl = origin.url,
                 locationName = location.name,
-                locationUrl = location.url
             )
         }
     }
@@ -45,14 +41,8 @@ data class CachedCharacters(
             status = status,
             species = species,
             image = image,
-            origin = Origin(
-                name = originName,
-                url = originUrl
-            ),
-            location = Location(
-                name = locationName,
-                url = locationUrl
-            )
+            origin = Origin(name = originName),
+            location = Location(name = locationName)
         )
     }
 }

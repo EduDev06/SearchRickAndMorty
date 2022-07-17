@@ -6,9 +6,6 @@ import javax.inject.Inject
 
 class LocationMapper @Inject constructor(): Mapper<ApiLocation?, Location> {
     override fun mapToDomain(apiEntity: ApiLocation?): Location {
-        return Location(
-            name = apiEntity?.name.orEmpty(),
-            url = apiEntity?.url.orEmpty()
-        )
+        return Location(name = apiEntity?.name.orEmpty())
     }
 }

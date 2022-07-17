@@ -6,11 +6,6 @@ import javax.inject.Inject
 
 class InfoMapper @Inject constructor(): Mapper<ApiInfo?, Info> {
     override fun mapToDomain(apiEntity: ApiInfo?): Info {
-        return Info(
-            count = apiEntity?.count ?: 0,
-            next = apiEntity?.next.orEmpty(),
-            pages = apiEntity?.pages ?: 0,
-            prev = apiEntity?.prev
-        )
+        return Info(pages = apiEntity?.pages ?: 0)
     }
 }

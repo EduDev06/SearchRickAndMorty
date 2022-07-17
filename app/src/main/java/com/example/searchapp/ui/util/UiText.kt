@@ -1,4 +1,4 @@
-package com.example.searchapp.util
+package com.example.searchapp.ui.util
 
 import android.content.Context
 import androidx.annotation.StringRes

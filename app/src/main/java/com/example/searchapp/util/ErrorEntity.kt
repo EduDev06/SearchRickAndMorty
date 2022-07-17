@@ -6,6 +6,6 @@ sealed class ErrorEntity {
         object UnKnown: ApiError()
     }
     sealed class InputError: ErrorEntity() {
-        object EmailError: InputError()
+        object NameError: InputError()
     }
 }

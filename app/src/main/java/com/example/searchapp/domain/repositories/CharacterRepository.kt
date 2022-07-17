@@ -6,6 +6,8 @@ import com.example.searchapp.domain.model.info.Info
 import kotlinx.coroutines.flow.Flow
 
 interface CharacterRepository {
-    fun getCharacters(character: String, limit: Int, offset: Int): Flow<List<Character>>
+
+    fun getCharacters(input: String, limit: Int, offset: Int): Flow<List<Character>>
+
     suspend fun requestMoreCharacters(pageToLoad: Int, name: String): Result<Info>
 }

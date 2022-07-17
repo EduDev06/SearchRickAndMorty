@@ -8,12 +8,12 @@ import javax.inject.Inject
 const val MIN_NAME_LENGTH = 2
 
 class GetMoreCharacters @Inject constructor(
-    private val repository: CharacterRepository,
+    private val repository: CharacterRepository
 ) {
-    suspend operator fun invoke(page: Int, character: String) =
-        if (character.length < MIN_NAME_LENGTH ) {
-            Result.Error(ErrorEntity.InputError.EmailError)
+    suspend operator fun invoke(page: Int, input: String) =
+        if (input.length < MIN_NAME_LENGTH ) {
+            Result.Error(ErrorEntity.InputError.NameError)
         } else {
-            repository.requestMoreCharacters(page, character)
+            repository.requestMoreCharacters(page, input)
         }
 }

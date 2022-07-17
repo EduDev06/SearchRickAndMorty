@@ -48,8 +48,9 @@ fun HomeScreen(
             HomeContent(
                 modifier = Modifier.padding(innerPadding),
                 input = state.input,
+                isLoading = state.isLoading,
                 characters = state.characters,
-                requireMoreCharacters = { input, position -> viewModel.requireMoreCharacters(input,position) } ,
+                requireMoreCharacters = { input, index -> viewModel.requireMoreCharacters(input, index) },
                 onEvent = { viewModel.onEvent(it) }
             )
         }
@@ -85,7 +86,7 @@ private fun HomeContent(
                 contentPadding = PaddingValues(5.dp),
                 content = {
                     itemsIndexed(items = characters) { index, character ->
-                        requireMoreCharacters(input, index)
+                        if (!isLoading) requireMoreCharacters(input, index)
                         CharacterItem(item = character)
                     }
                 }

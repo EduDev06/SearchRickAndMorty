@@ -112,8 +112,8 @@ fun PreviewCharacterItem() {
                 status = "Alive",
                 species = "Human",
                 image = "",
-                origin = Origin(name = "Earth (C-137)", url = ""),
-                location = Location(name = "Citadel of Ricks", url = "")
+                origin = Origin(name = "Earth (C-137)"),
+                location = Location(name = "Citadel of Ricks")
             )
         )
     }

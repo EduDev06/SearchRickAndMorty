@@ -8,8 +8,8 @@ import kotlinx.coroutines.flow.Flow
 interface CharactersDao {
 
     @Transaction
-    @Query("SELECT * FROM characters WHERE name = :character LIMIT :limit OFFSET :offset")
-    fun getCharacters(character: String, limit: Int, offset: Int): Flow<List<CachedCharacters>>
+    @Query("SELECT * FROM characters WHERE name LIKE '%' || :name || '%' LIMIT :limit OFFSET :offset")
+    fun getCharacters(name: String, limit: Int, offset: Int): Flow<List<CachedCharacters>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCharacter(character: List<CachedCharacters>)
