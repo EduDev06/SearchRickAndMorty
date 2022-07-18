@@ -17,7 +17,12 @@ val Typography = Typography(
     defaultFontFamily  = cantarell,
     body1 = TextStyle(
         fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Bold,
+        fontSize = 20.sp
+    ),
+    body2 = TextStyle(
+        fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
-        fontSize = 18.sp
+        fontSize = 14.sp
     )
 )
