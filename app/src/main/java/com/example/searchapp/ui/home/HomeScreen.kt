@@ -12,13 +12,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.searchapp.R
 import com.example.searchapp.domain.model.characters.Character
 import com.example.searchapp.ui.home.components.CharacterItem
-import com.example.searchapp.ui.theme.SearchAppTheme
 
 @Composable
 fun HomeScreen(
@@ -50,7 +48,8 @@ fun HomeScreen(
                 input = state.input,
                 isLoading = state.isLoading,
                 characters = state.characters,
-                requireMoreCharacters = { input, index -> viewModel.requireMoreCharacters(input, index) },
+                page = state.page,
+                getCharacters = { input, press -> viewModel.getCharacters(input, press) },
                 onEvent = { viewModel.onEvent(it) }
             )
         }
@@ -60,10 +59,11 @@ fun HomeScreen(
 @Composable
 private fun HomeContent(
     modifier: Modifier = Modifier,
-    isLoading: Boolean = false,
-    characters: List<Character> = emptyList(),
     input: String,
-    requireMoreCharacters: (String, Int) -> Unit,
+    isLoading: Boolean = false,
+    characters: List<Character> = ArrayList(),
+    page: Int,
+    getCharacters: (String, Boolean) -> Unit,
     onEvent: (HomeEvent) -> Unit
 ) {
     Surface(modifier = modifier.fillMaxSize()) {
@@ -76,7 +76,7 @@ private fun HomeContent(
                     onValueChange = { onEvent(HomeEvent.EnteredCharacter(it)) },
                     textStyle = MaterialTheme.typography.h6,
                     trailingIcon = {
-                        IconButton(onClick = { onEvent(HomeEvent.GetCharacters(input)) }) {
+                        IconButton(onClick = { getCharacters(input, true) }) {
                             Icon(imageVector = Icons.Default.Search, contentDescription = null)
                         }
                     }
@@ -86,7 +86,9 @@ private fun HomeContent(
                 contentPadding = PaddingValues(5.dp),
                 content = {
                     itemsIndexed(items = characters) { index, character ->
-                        if (!isLoading) requireMoreCharacters(input, index)
+                        if (!isLoading && ((index + 1) >= (page * 20))) {
+                            getCharacters(input, false)
+                        }
                         CharacterItem(item = character)
                     }
                 }
@@ -104,17 +106,5 @@ private fun FullScreenLoading() {
             .wrapContentSize(Alignment.Center)
     ) {
         CircularProgressIndicator()
-    }
-}
-
-@Preview
-@Composable
-fun PreviewHomeContent() {
-    SearchAppTheme {
-        HomeContent(
-            input = " ",
-            requireMoreCharacters = { _,_ -> },
-            onEvent = { }
-        )
     }
 }

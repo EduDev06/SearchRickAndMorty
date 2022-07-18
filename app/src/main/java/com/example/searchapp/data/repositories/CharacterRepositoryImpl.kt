@@ -22,11 +22,11 @@ class CharacterRepositoryImpl @Inject constructor(
     private val apiInfoMapper: InfoMapper,
     private val apiCharacterMapper: CharactersMapper
 ): CharacterRepository {
-    override fun getCharacters(character: String, limit: Int, offset: Int): Flow<List<Character>> = flow {
-        val list = cache.getCharacters(character, limit, offset).map { characterList ->
-            characterList.map { (it.toDomain()) }
-        }
-        emitAll(list)
+    override fun getCharacters(input: String, limit: Int, offset: Int): Flow<List<Character>> = flow {
+        cache.getCharacters(input, limit, offset).map { characterList ->
+            characterList.map { it.toDomain() }
+        }.collect { emit(it) }
+        //emitAll(list)
     }
 
     override suspend fun requestMoreCharacters(
