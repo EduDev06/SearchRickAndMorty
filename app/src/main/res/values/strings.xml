@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">SearchApp</string>
+
+    <string name="unknown_exception_error">Oops, something went wrong!</string>
+    <string name="io_exception_error">Could not reach server, check your internet connection.</string>
+    <string name="character_error">The name needs to consist of at least %d characters</string>
+
+    <!-- HomeScreen   -->
+    <string name="first_seen_in">First seen in:</string>
+    <string name="last_known_location">Last known location:</string>
+    <string name="name">Rick Sanchez</string>
+</resources>
