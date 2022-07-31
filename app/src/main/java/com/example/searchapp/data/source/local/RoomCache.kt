@@ -13,6 +13,6 @@ class RoomCache @Inject constructor(
     }
 
     override suspend fun storeCharacters(characters: List<CachedCharacters>) {
-        return charactersDao.insertCharacter(characters)
+        charactersDao.insertCharacter(characters)
     }
 }

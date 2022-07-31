@@ -12,7 +12,7 @@ interface RickAndMortyApi {
 
     @GET(CHARACTER_ENDPOINT)
     suspend fun getCharacters(
-        @Query(PAGE_PARAMETER) id: Int,
+        @Query(PAGE_PARAMETER) page: Int,
         @Query(NAME_PARAMETER) name: String
     ): ApiPaginatedCharacters
 }
